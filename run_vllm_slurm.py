@@ -200,7 +200,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--job-name", "-j", type=str, required=True, help="Name of the job")
     parser.add_argument("--nodes", "-n", type=int, default=1, help="Number of nodes to use")
-    parser.add_argument("--model-path", "-m", type=str, required=True, help="Name of the model. Should be a Hugging Face model name. (e.g. upstage/solar-pro-preview-instruct)")
+    parser.add_argument(
+        "--model-path",
+        "-m",
+        type=str,
+        required=True,
+        help="Name of the model. Should be a Hugging Face model name. (e.g. upstage/solar-pro-preview-instruct)",
+    )
     parser.add_argument("--tensor-parallel-size", "-t", type=int, default=1, help="Tensor parallel size")
     parser.add_argument("--lora-path", type=str, help="Path to the lora model")
     parser.add_argument("--check-access", action="store_true", help="Validate accessability of the model")

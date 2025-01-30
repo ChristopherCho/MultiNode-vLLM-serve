@@ -1,22 +1,26 @@
 # MultiNode-vLLM-serve
 Run vLLM serve commands on multi-node environment
 
+
 ## Requirements
 - slurm installed and executable on all nodes
 - shared storage mounted on all nodes by the same path
 
 
 ## Setup
+1. Clone the repository on the shared storage
+1. Navigate to the repository directory
 1. Copy `.env_example` to `.env` and set the environment variables
-2. Create a conda environment with the name specified in `.env`
+1. Create a conda environment with the name specified in `.env`
     ```bash
     conda create -n vllm-serve python=3.10
     conda activate vllm-serve
     ```
-3. Install the dependencies
+1. Install the dependencies
     ```bash
     make install
     ```
+
 
 ## Usage
 ```
@@ -38,6 +42,7 @@ options:
   --check-access        Validate accessability of the model
 ```
 
+
 ## Examples
 ### Single-node single-model serve
 ```bash
@@ -57,6 +62,7 @@ python run_vllm_slurm.py -j vllm-serve-solar -n 2 -m upstage/solar-pro-preview-i
 & python run_vllm_slurm.py -j vllm-serve-mistral -n 2 -m mistralai/Mistral-Nemo-Instruct-2407 --check-access
 ```
 (Note: Make sure to set a different job_name for each model to avoid log file name conflicts.)
+
 
 ## Test
 Check out the [`test.py`](./test.py) for getting the response from each model.
