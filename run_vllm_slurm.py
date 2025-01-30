@@ -95,6 +95,11 @@ def main(args: argparse.Namespace):
     runfile_path = os.path.join(LOG_DIR, "scripts", f"{args.job_name}_{execution_id}.slurm")
     log_path = os.path.join(LOG_DIR, "logs", f"{args.job_name}_{execution_id}.log")
 
+    if not os.path.exists(os.path.dirname(runfile_path)):
+        os.makedirs(os.path.dirname(runfile_path), exist_ok=True)
+    if not os.path.exists(os.path.dirname(log_path)):
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
     # Write the runfile
     with open(runfile_path, "w") as f:
         lora_arg = f"-l {args.lora_path}" if args.lora_path else ""
