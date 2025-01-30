@@ -12,7 +12,7 @@ For easy and balanced usage, you can use load balancer like [litellm](https://do
 
 
 ## Requirements
-- slurm installed and executable on all nodes
+- tmux and slurm installed on all nodes
 - shared storage mounted on all nodes by the same path
 
 
@@ -29,6 +29,29 @@ For easy and balanced usage, you can use load balancer like [litellm](https://do
     ```bash
     make install
     ```
+
+### Environment Variables
+```
+LOG_DIR=/path/to/log/dir
+
+SLURM_PARTITION=default
+START_PORT=40020
+NUM_GPUS_PER_NODE=8
+TMUX_SESSION_NAME=vllm-serve
+
+CONDA_ROOT_DIR=/path/to/conda/root/dir
+CONDA_ENV_NAME=vllm-serve
+
+TIMEOUT_SECONDS=86400
+```
+- `LOG_DIR`: Directory to store the log files. Should be a shared storage.
+- `SLURM_PARTITION`: Slurm partition name
+- `START_PORT`: Starting port number for the vLLM serve. vLLM serve will be served on `START_PORT` + `INDEX`.
+- `NUM_GPUS_PER_NODE`: Number of GPUs per node
+- `TMUX_SESSION_NAME`: Name of the tmux session
+- `CONDA_ROOT_DIR`: Root directory of the conda environment. Should be a shared storage.
+- `CONDA_ENV_NAME`: Name of the conda environment
+- `TIMEOUT_SECONDS`: Timeout seconds for the vLLM serve. If set to `-1`, the vLLM serve will run indefinitely even if the model is not working.
 
 
 ## Usage
@@ -50,6 +73,14 @@ options:
                         Path to the lora model
   --check-access        Validate accessability of the model
 ```
+
+### How it works
+1. After running `run_vllm_slurm.py`, the script will create a slurm job and run the vLLM serve on each Node.
+1. The slurm job will create a tmux session on each node that runs the vLLM serve on each pane.
+    - The number of models served on a single node is determined by `NUM_GPUS_PER_NODE` / `TENSOR_PARALLEL_SIZE`.  
+    - For each node, the first `NUM_GPUS_PER_NODE` GPUs (or less if `NUM_GPUS_PER_NODE` is not divisible by `TENSOR_PARALLEL_SIZE`) will be used.
+    - Each model will be served on a different port (starting from `START_PORT`).
+1. When the `TIMEOUT_SECONDS` is reached, the slurm job will be terminated.
 
 
 ## Examples
