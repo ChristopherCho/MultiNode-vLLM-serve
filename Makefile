@@ -27,5 +27,4 @@ install:
 	pip install --upgrade -r requirements.txt -r requirements-dev.txt
 
 badges:
-	-genbadge coverage -i coverage.xml -o images/coverage.svg
 	-interrogate --generate-badge images/interrogate.svg --badge-format svg

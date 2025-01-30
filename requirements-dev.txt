@@ -1,6 +1,5 @@
 black[jupyter]
 click
-coverage
 flake8
 flake8-docstrings
 flake8-annotations

@@ -1,5 +1,14 @@
+<div align="center">
+
 # MultiNode-vLLM-serve
 Run vLLM serve commands on multi-node environment
+
+![](./images/interrogate.svg)
+</div>
+
+The repository is for running [vLLM](https://docs.vllm.ai/en/latest/) serve commands on multi-node environment via [slurm](https://slurm.schedmd.com/documentation.html).  
+After all models are correctly served, you can access models with its API endpoint.  
+For easy and balanced usage, you can use load balancer like [litellm](https://docs.litellm.ai/).  
 
 
 ## Requirements
